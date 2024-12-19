@@ -16,6 +16,5 @@ public class AppDbContext : DbContext
         optionsBuilder.UseNpgsql(_configuration.GetConnectionString("WebApiDatabase"));
     }
     
-    public DbSet<UserInfo> UserInfo { get; set; }
-    public DbSet<User> User { get; set; }
+    public DbSet<UserInfoEntity> UserInfo { get; set; }
 }

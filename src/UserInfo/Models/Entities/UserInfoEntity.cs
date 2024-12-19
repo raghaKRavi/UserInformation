@@ -4,11 +4,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace UserInfo.Data;
 
 [Table("UserInfo")]
-public class UserInfo
+public class UserInfoEntity
 {
     public int Id { get; init; }
     
-    public required int UserId { get; init; }
+    [Column(TypeName = "varchar")]
+    public required string Email { get; init; }
     
     [Column(TypeName = "varchar")]
     [MinLength(2)]
@@ -19,12 +20,14 @@ public class UserInfo
     public required string LastName { get; init; }
     
     [Column(TypeName = "date")]
-    public required DateTime Dob { get; init; }
+    public required DateOnly Dob { get; init; }
     
     public string? PhoneNumber { get; init; }
     
     [Column(TypeName = "text")]
     public string? Address { get; init; }
     
-    public DateTime ModifiedAt { get; init; }
+    public required DateTime CreatedAt { get; init; }
+    
+    public required DateTime ModifiedAt { get; init; }
 }
