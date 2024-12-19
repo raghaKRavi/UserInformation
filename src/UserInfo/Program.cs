@@ -1,3 +1,5 @@
+using FluentValidation;
+
 using Microsoft.EntityFrameworkCore;
 
 using UserInfo.Data;
@@ -5,6 +7,9 @@ using UserInfo.Repositories;
 using UserInfo.Repositories.Implementations;
 using UserInfo.Services;
 using UserInfo.Services.Implementations;
+using FluentValidation;
+
+using UserInfo.Controllers;
 
 var builder = WebApplication.CreateBuilder(args);
 {
@@ -21,6 +26,7 @@ var builder = WebApplication.CreateBuilder(args);
     builder.Services.AddScoped<IUserInfoService, UserInfoService>();
     builder.Services.AddScoped<IUserInfoRepository, UserInfoRepository>();
     builder.Services.AddControllers();
+    builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 }
 
 // Add services to the container.
@@ -31,6 +37,7 @@ var app = builder.Build();
 {
     // configure request pipleline - middleware
     app.MapControllers();
+    app.MapUserInfoEndpoints();
 }
 
 // Configure the HTTP request pipeline.
