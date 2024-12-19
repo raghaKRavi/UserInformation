@@ -1,13 +1,13 @@
 namespace UserInfo.Models;
 
 public record UserInfoDto(
-    int Id,
+    int? Id,
     string Email,
     string FirstName,
     string LastName,
     DateOnly Dob,
-    string? Phone,
+    string? PhoneNumber,
     string? Address,
-    DateTime CreatedAt,
-    DateTime ModifiedAt
+    DateTime? CreatedAt,
+    DateTime? UpdatedAt
 );

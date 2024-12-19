@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace UserInfo.Data;
+namespace UserInfo.Models.Entities;
 
 [Table("UserInfo")]
-public class UserInfoEntity
+public class UserInfoEntity : BaseEntity
 {
+    [Key]
+    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
     
     [Column(TypeName = "varchar")]
@@ -26,8 +28,11 @@ public class UserInfoEntity
     
     [Column(TypeName = "text")]
     public string? Address { get; init; }
+}
+
+public class BaseEntity
+{
+    public DateTime? CreatedAt { get; set; }
     
-    public required DateTime CreatedAt { get; init; }
-    
-    public required DateTime ModifiedAt { get; init; }
+    public DateTime? UpdatedAt { get; set; }
 }

@@ -1,10 +1,26 @@
+using Microsoft.EntityFrameworkCore;
+
+using UserInfo.Data;
+using UserInfo.Repositories;
+using UserInfo.Repositories.Implementations;
+using UserInfo.Services;
+using UserInfo.Services.Implementations;
+
 var builder = WebApplication.CreateBuilder(args);
 {
     // DI IOC Container Configurations
     builder.Services.AddEndpointsApiExplorer();
     builder.Services.AddSwaggerGen();
 
+    builder.Services.AddDbContext<AppDbContext>(options =>
+    {
+        options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase"));
+    });
+    
     builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+    builder.Services.AddScoped<IUserInfoService, UserInfoService>();
+    builder.Services.AddScoped<IUserInfoRepository, UserInfoRepository>();
+    builder.Services.AddControllers();
 }
 
 // Add services to the container.
@@ -13,7 +29,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-    // Middleware Configurations
+    // configure request pipleline - middleware
+    app.MapControllers();
 }
 
 // Configure the HTTP request pipeline.
@@ -26,8 +43,3 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
