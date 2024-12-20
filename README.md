@@ -22,7 +22,7 @@ Before running the application, ensure you have the following installed:
 Start by cloning the repository:
 
 ```bash
- git clone https://github.com/yourusername/your-repo-name.git
+ git clone https://github.com/raghaKRavi/UserInformation.git
 ```
 
 ### 2. Configure Postgres Database
