@@ -8,10 +8,7 @@ namespace UserInfo.Controllers;
 
 public class UserInfoController(IUserInfoService service) : ControllerBase
 {
-    //private readonly IUserInfoService _service = service;
-    
-    
-    
+
     public async Task<IActionResult> Create(UserInfoRequest request)
     {
         await service.CreateUser(request);

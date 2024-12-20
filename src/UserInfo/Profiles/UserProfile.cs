@@ -14,6 +14,8 @@ public class UserProfile : Profile
     public UserProfile()
     {
         CreateMap<UserInfoDto, UserInfoEntity>().ReverseMap();
+        CreateMap<UpdateUserInfoDto, UserInfoEntity>().ReverseMap();
+        CreateMap<UserInfoRequest, UpdateUserInfoDto>();
         CreateMap<UserInfoRequest, UserInfoDto>()
             .ConstructUsing(x => new UserInfoDto(
                 null, x.Email, x.FirstName, x.LastName, x.Dob, x.PhoneNumber, x.Address, null, null));
@@ -39,4 +41,6 @@ public class UserProfile : Profile
                     src.MapFrom(x => x.Dob.ToAgeString())
                 );
     }
+    
+    
 }

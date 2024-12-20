@@ -10,43 +10,41 @@ using UserInfo.Services.Implementations;
 using FluentValidation;
 
 using UserInfo.Controllers;
+using UserInfo.DependencyInjection;
+using UserInfo.RequestPipeline;
 
 var builder = WebApplication.CreateBuilder(args);
 {
-    // DI IOC Container Configurations
-    builder.Services.AddEndpointsApiExplorer();
-    builder.Services.AddSwaggerGen();
 
     builder.Services.AddDbContext<AppDbContext>(options =>
     {
         options.UseNpgsql(builder.Configuration.GetConnectionString("WebApiDatabase"));
     });
     
-    builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-    builder.Services.AddScoped<IUserInfoService, UserInfoService>();
-    builder.Services.AddScoped<IUserInfoRepository, UserInfoRepository>();
-    builder.Services.AddControllers();
-    builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+    
+    builder.Services
+        .AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies())
+        .AddValidatorsFromAssemblyContaining<Program>()
+        .AddGlobalErrorHandling()
+        .AddUserInfos()
+        .AddEndpointsApiExplorer()
+        .AddSwaggerGen()
+        .AddControllers();
 }
-
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-
 
 var app = builder.Build();
 {
-    // configure request pipleline - middleware
+    app.UseGlobalErrorHandling();
     app.MapControllers();
     app.MapUserInfoEndpoints();
 }
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger(); 
+app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 
 app.Run();
+
+public partial class Program { }

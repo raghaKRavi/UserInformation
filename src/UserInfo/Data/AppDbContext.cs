@@ -12,11 +12,6 @@ public class AppDbContext : DbContext
     {
 
     }
-
-    // protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    // {
-    //     optionsBuilder.UseNpgsql(_configuration.GetConnectionString("WebApiDatabase"));
-    // }
     
     public DbSet<UserInfoEntity> UserInfo { get; set; }
     
@@ -39,7 +34,7 @@ public class AppDbContext : DbContext
 
         foreach (var entity in entities)
         {
-            var now = DateTime.UtcNow; // current datetime
+            var now = DateTime.UtcNow;
 
             if (entity.State == EntityState.Added)
             {

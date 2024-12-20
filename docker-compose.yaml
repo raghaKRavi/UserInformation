@@ -1,0 +1,31 @@
+version: '3.9'
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres
+    environment:
+      POSTGRES_USER: itisme
+      POSTGRES_PASSWORD: letmein
+      POSTGRES_DB: docosoft
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    build:
+      context: .
+    container_name: app
+    depends_on: 
+      - postgres
+    environment:
+      ConnectionStrings__DefaultConnection: "Host=postgres;Port=5432;Database=docosoft;Username=itisme;Password=letmein"
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "8080:8080"
+    command: >
+      sh -c "dotnet ef database update &&
+             dotnet UserInfo.dll"
+
+volumes:
+  postgres_data:
