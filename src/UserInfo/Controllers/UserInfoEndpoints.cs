@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 
 using UserInfo.Filters;
 using UserInfo.Models.Requests;
+using UserInfo.Models.Responses;
 using UserInfo.Services;
 
 namespace UserInfo.Controllers;
@@ -16,11 +17,15 @@ public static class UserInfoEndpoints
             .WithSummary("create new user information")
             .AddEndpointFilter<ValidationFilters<UserInfoRequest>>();
 
+        endpoints.MapPut("{id}", UpdateById)
+            .WithSummary("Update user information")
+            .AddEndpointFilter<ValidationFilters<UserInfoRequest>>();
+        
         endpoints.MapGet("", GetAll)
             .WithName(nameof(GetAll))
-            .WithSummary("Get all UUser Information");
+            .WithSummary("Get all User Information");
 
-        endpoints.MapGet("/{id}", GetById)
+        endpoints.MapGet("{id}", GetById)
             .WithName(nameof(GetById))
             .WithSummary("Get User Information By Id");
     }
@@ -31,14 +36,19 @@ public static class UserInfoEndpoints
         return TypedResults.Ok(new {message = "created"});
     }
     
-    public static async Task<IResult> GetById(int userId, IUserInfoService service)
+    private static async Task<IResult> UpdateById( [FromBody] UserInfoRequest request, [FromRoute(Name = "id")] int id, IUserInfoService service)
     {
-        var response = await service.GetUserById(userId);
+        await service.UpdateUserInfo(id, request);
+        return TypedResults.Ok("Updated");
+    }
+    
+    private static async Task<IResult> GetById(int id, IUserInfoService service)
+    {
+        var response = await service.GetUserById(id);
         return TypedResults.Ok(response);
     }
     
-    
-    public static async Task<IResult> GetAll(IUserInfoService service)
+    private static async Task<IResult> GetAll(IUserInfoService service)
     {
         var response = await service.GetAll();
         return TypedResults.Ok(response);

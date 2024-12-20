@@ -7,7 +7,7 @@ public interface IUserInfoService
 {
     Task CreateUser(UserInfoRequest request);
     
-    Task<UserInfoResponse> UpdateUserInfo(UserInfoRequest request);
+    Task UpdateUserInfo(int id, UserInfoRequest request);
     
     Task<UserInfoResponse> GetUserById(int id);
     

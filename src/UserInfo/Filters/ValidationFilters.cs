@@ -10,7 +10,6 @@ public class ValidationFilters<TRequest>(IValidator<TRequest> validator) : IEndp
         EndpointFilterInvocationContext context, 
         EndpointFilterDelegate next)
     {
-        //var request = context.Arguments.OfType<TRequest>(0);
         var request = context.GetArgument<TRequest>(0);
 
         var result = await validator.ValidateAsync(request, context.HttpContext.RequestAborted);
