@@ -73,6 +73,16 @@ This will start the Web API locally, and you can access it at:
 - Swagger URL: http://localhost:5269/swagger/index.html
 
 ---
+### Note:
+
+If you're facing issue with database connection with application, after running `docker-compose up`,
+
+shut down the container and do a build,
+```bash
+ docker-compose build
+```
+
+then run the `docker-compose up` again.
 
 ## Request and Response Objects
 
